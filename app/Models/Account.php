@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Plan;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Carbon\Carbon;
@@ -13,9 +14,16 @@ class Account extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['active'];
+
     public function plan(): BelongsTo
     {
     	return $this->belongsTo(Plan::class);
+    }
+
+    public function devices(): HasMany
+    {
+        return $this->hasMany(Device::class);
     }
 
     protected function daysElapsed(): Attribute
