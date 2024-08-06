@@ -29,9 +29,18 @@ class Accounts extends Command
         $this->newLine();
         $this->line('Lista de cuentas');
         $this->newLine();
+        $accounts = Account::all();        
         $this->table(
             ['id', 'username', 'plan_id'], 
-            Account::all()->toArray()
+            $accounts->toArray()
+        );
+
+        $filtered = $accounts->reject(function(Account $account){
+            return $account->devices->count() === 0;
+        });
+        $this->table(
+            ['id', 'username', 'plan_id'], 
+            $filtered->toArray()
         );
 
     }

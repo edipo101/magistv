@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('list_accounts');
+// });
+
+Route::get('/', [AccountController::class, 'index'])->name('accounts.index');
+Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');

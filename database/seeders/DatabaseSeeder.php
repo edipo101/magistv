@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Account;
+use App\Models\Device;
 use App\Models\Plan;
 use Illuminate\Database\Seeder;
 
@@ -16,5 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([PlanSeeder::class]);
         Account::factory(10)->create();
+        Device::factory(20)->create();
     }
 }

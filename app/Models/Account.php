@@ -54,5 +54,9 @@ class Account extends Model
     	);
     }
 
+    public function first_device()
+    {
+        return $this->devices->first()->id;
+    }
 
 }
