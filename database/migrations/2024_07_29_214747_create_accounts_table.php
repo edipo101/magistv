@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('plan_id')->constrained();
             $table->date('started_at');
             $table->date('finished_at');
-            $table->boolean('active');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

@@ -17,10 +17,10 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = Account::orderByDesc('id')->get();
-        // $accounts = $accounts->reject(function(Account $account)
-        // {
-        //     return $account->devices->count() < 1;
-        // });
+        $accounts = $accounts->filter(function(Account $account)
+        {
+            return $account->devices->count() > 0;
+        });
         $accounts = PaginationHelper::paginate($accounts, 10);
         return view('list_accounts', compact('accounts'));
     }

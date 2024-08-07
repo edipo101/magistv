@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('list_accounts');
-// });
+Route::get('/', function () {
+    return view('home');
+});
 
 Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
 

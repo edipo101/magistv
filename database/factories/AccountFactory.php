@@ -25,8 +25,7 @@ class AccountFactory extends Factory
             'username' => Str::random(10),
             'plan_id' => $plan->id,
             'started_at' => Carbon::create($date),
-            'finished_at' => Carbon::create($date)->addMonths($plan->months),
-            'active' => true
+            'finished_at' => Carbon::create($date)->addMonths($plan->months)
         ];
     }
 }

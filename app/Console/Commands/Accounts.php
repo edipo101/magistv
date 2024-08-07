@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Account;
+use App\Models\Device;
 use Illuminate\Console\Command;
 
 class Accounts extends Command
@@ -29,19 +30,30 @@ class Accounts extends Command
         $this->newLine();
         $this->line('Lista de cuentas');
         $this->newLine();
-        $accounts = Account::all();        
+        $accounts = Account::get();        
         $this->table(
-            ['id', 'username', 'plan_id'], 
+            ['id', 'username', 'plan_id', 'started_at', 'finished_at', 'active'], 
             $accounts->toArray()
         );
 
-        $filtered = $accounts->reject(function(Account $account){
-            return $account->devices->count() === 0;
-        });
+        $devices = Device::orderBy('account_id')->get();
         $this->table(
-            ['id', 'username', 'plan_id'], 
-            $filtered->toArray()
+            [],
+            $devices->toArray()
         );
+
+        $filtered = $accounts->filter(function(Account $account){
+            return $account->number_devices == 0;
+        });
+
+        // $filtered = $accounts->reject(function(Account $account){
+        //     return $account->devices->count() == 0;
+        // });
+        $this->line($filtered);
+        // $this->table(
+        //     ['id', 'username', 'plan_id'], 
+        //     $filtered->toArray()
+        // );
 
     }
 }

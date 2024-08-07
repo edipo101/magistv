@@ -54,6 +54,18 @@ class Account extends Model
     	);
     }
 
+    protected function numberDevices(): Attribute{
+        return Attribute::make(
+            get: function(){
+                $total = 0;
+                foreach($this->devices as $device){
+                    $total += $device->quantity;
+                }
+                return $total;
+            }
+        );
+    }
+
     public function first_device()
     {
         return $this->devices->first()->id;

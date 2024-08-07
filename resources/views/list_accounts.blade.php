@@ -31,7 +31,7 @@
 						<div class="progress-bar" style="width: {{$account->progress}}%">{{$account->progress}}%</div>
 					</div>
 				</td>
-				<td>{{$account->devices->count()}}</td>
+				<td>{{$account->number_devices}}</td>
 				<td>
 					@if($account->devices->count() < 3)
 					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-success btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button></a>
