@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
 use App\Models\Account;
+use App\Models\Device;
 use App\Models\Plan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AccountController extends Controller
 {
@@ -14,13 +16,12 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::all();
-        $accounts = $accounts->reject(function(Account $account)
-        {
-            return $account->devices->count() < 1;
-        });
-        // dd(collect($accounts));
-        $accounts = PaginationHelper::paginate($accounts, 5);
+        $accounts = Account::orderByDesc('id')->get();
+        // $accounts = $accounts->reject(function(Account $account)
+        // {
+        //     return $account->devices->count() < 1;
+        // });
+        $accounts = PaginationHelper::paginate($accounts, 10);
         return view('list_accounts', compact('accounts'));
     }
 
@@ -33,12 +34,71 @@ class AccountController extends Controller
         return view('account_form', compact('plans'));
     }
 
+    public function add_device(Account $account)
+    {
+        $plans = Plan::all();
+        // return $account;
+        return view('account_form', compact('plans', 'account'));
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $plan = Plan::find($request->plan_id);
+
+        if ($request->calculate)
+            $finished_at = Carbon::create($started_at)->addMonths($plan->months);
+        else
+            $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+        // return $finished_at;
+
+        $account = Account::create([
+            'username' => $request->username,
+            'plan_id' => $request->plan_id,
+            'started_at' => $started_at,
+            'finished_at' => $finished_at,
+            'active' => true
+        ]);
+        
+        $device = Device::create([
+            'name' =>  $request->customer_name,
+            'phone' => $request->phone,
+            'account_id' => $account->id,
+            'plan_id' => $request->plan_id,
+            'started_at' => $started_at,
+            'finished_at' => $finished_at,
+            'active' => true
+        ]);
+        return redirect()->route('accounts.index');
+    }
+
+    public function store_add_device(Request $request)
+    {
+        // return $request;
+        $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $account = Account::find($request->account_id);
+        $plan = Plan::find($request->plan_id);
+
+        if ($request->calculate)
+            $finished_at = Carbon::create($started_at)->addMonths($plan->months);
+        else
+            $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+        
+        $device = Device::create([
+            'name' =>  $request->customer_name,
+            'phone' => $request->phone,
+            'account_id' => $account->id,
+            'plan_id' => $request->plan_id,
+            'started_at' => $started_at,
+            'finished_at' => $finished_at,
+            'active' => true
+        ]);
+        return redirect()->route('accounts.index');
     }
 
     /**

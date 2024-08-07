@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('list_accounts');
 // });
 
-Route::get('/', [AccountController::class, 'index'])->name('accounts.index');
 Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
-Route::get('/account_form', [AccountController::class, 'create'])->name('accounts.form');
+
+Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
+Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
+Route::get('/accounts/add-device/{account}', [AccountController::class, 'add_device'])->name('accounts.add_device');
+Route::post('/accounts/add-device', [AccountController::class, 'store_add_device'])->name('accounts.store.add_device');

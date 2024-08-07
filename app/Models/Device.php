@@ -14,7 +14,7 @@ class Device extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'phone', 'account_id', 'plan_id', 'started_at', 'finished_at', 'active'];
 
     public function account(): BelongsTo
     {

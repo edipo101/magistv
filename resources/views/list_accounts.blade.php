@@ -1,8 +1,7 @@
 <x-layout>
-	<h2>Listado de cuentas</h2>
+	<h2>Listado de cuentas con dispositivos</h2>
 	<p>Total registros: {{$accounts->total()}}</p>
-	{{-- {{var_dump(route())}} --}}
-	<a href="{{route('accounts.form')}}"><button type="button" class="btn btn-success">Crear cuenta</button></a>
+	<a href="{{route('accounts.create')}}"><button type="button" class="btn btn-success">Crear nueva cuenta</button></a>
 	<table class="table">
 		<thead>
 			<tr>
@@ -34,7 +33,9 @@
 				</td>
 				<td>{{$account->devices->count()}}</td>
 				<td>
-					<button type="button" class="btn btn-success btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button>
+					@if($account->devices->count() < 3)
+					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-success btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button></a>
+					@endif
 					<button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button>
 					<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button>
 				</td>
@@ -55,7 +56,7 @@
 						<div class="progress-bar bg-success" style="width: {{$device->progress}}%">{{$device->progress}}%</div>
 					</div>
 				</td>
-				<td colspan="2">Vence en {{$device->days_remaining}} días	</td>
+				<td colspan="2">Vence en {{$device->days_remaining}} días</td>
 			</tr>
 			@endforeach
 			@endif
