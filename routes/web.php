@@ -21,3 +21,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AccountController::class, 'index'])->name('accounts.index');
 Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+Route::get('/account_form', [AccountController::class, 'create'])->name('accounts.form');

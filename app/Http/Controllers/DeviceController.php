@@ -12,7 +12,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices = Device::orderBy('account_id')->paginate(12);
+        $devices = Device::orderBy('account_id')->orderBy('created_at')->paginate(12);
         return view('list_devices', compact('devices'));
     }
 

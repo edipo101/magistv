@@ -1,6 +1,8 @@
 <x-layout>
 	<h2>Listado de cuentas</h2>
-	<button type="button" class="btn btn-success">Agregar</button>
+	<p>Total registros: {{$accounts->total()}}</p>
+	{{-- {{var_dump(route())}} --}}
+	<a href="{{route('accounts.form')}}"><button type="button" class="btn btn-success">Crear cuenta</button></a>
 	<table class="table">
 		<thead>
 			<tr>
@@ -17,8 +19,8 @@
 		</thead>
 		<tbody>
 			@foreach ($accounts as $account)
-			<tr>
-				<td>{{$account->id}}</td>
+			<tr class="table-active">
+				<td><i class="fas fa-solid fa-user"></i></td>
 				<td><a href="#">{{$account->username}}</a></td>
 				<td>{{$account->plan->name}}</td>
 				<td>{{$account->plan->months}}</td>
@@ -31,14 +33,17 @@
 					</div>
 				</td>
 				<td>{{$account->devices->count()}}</td>
-				<td><button type="button" class="btn btn-primary btn-sm">Editar</button></td>
-				<td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button></td>
+				<td>
+					<button type="button" class="btn btn-success btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button>
+					<button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button>
+					<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button>
+				</td>
 			</tr>
 			@if($account->devices->count() > 0)
 			@php $devices = $account->devices @endphp
 			@foreach($devices as $device)
 			<tr>
-				<td></td>
+				<td><i class="fas fa-solid fa-tv"></i></td>
 				<td>{{$device->name}}</td>
 				<td>{{$device->plan->name}}</td>
 				<td>{{$device->plan->months}}</td>

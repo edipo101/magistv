@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
 use App\Models\Account;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -28,7 +29,8 @@ class AccountController extends Controller
      */
     public function create()
     {
-        //
+        $plans = Plan::all();
+        return view('account_form', compact('plans'));
     }
 
     /**
