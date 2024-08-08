@@ -49,7 +49,7 @@ class Accounts extends Command
         // $filtered = $accounts->reject(function(Account $account){
         //     return $account->devices->count() == 0;
         // });
-        $this->line($filtered);
+        $this->line($filtered->filter());
         // $this->table(
         //     ['id', 'username', 'plan_id'], 
         //     $filtered->toArray()
