@@ -5,17 +5,25 @@
 	@endphp
 
 	<form action="{{route($route)}}" method="post">
+		{{$errors}}
 		<div class="row mb-3">
 			<h4 class="mb-3">Datos de la cuenta</h4>	
 			@if(!isset($account)) 
 			<div class="mb-3 col-md-6">
 				<label for="username" class="form-label">Nombre de usuario <span style="color: red">*</span></label>
-				<input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+				<input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" aria-describedby="emailHelp" value="{{old('username')}}">
+				@error('username')
+				<div class="invalid-feedback">{{$message}}</div>
+				@else
 				<div id="emailHelp" class="form-text">Nombre de usuario para la cuenta MagisTV.</div>
+				@enderror
 			</div>
 			<div class="mb-3 col-md-6">
 				<label for="password" class="form-label">Contraseña <span style="color: red">*</span></label>
-				<input type="text" class="form-control" id="password" name="password">
+				<input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{old('password')}}">
+				@error('password')
+				<div class="invalid-feedback">{{$message}}</div>
+				@enderror
 			</div>
 			@else
 			<input type="hidden" name="account_id" value="{{$account->id}}">
@@ -36,8 +44,12 @@
 			</div>
 			<div class="mb-3 col-md-4">
 				<label for="started_at" class="form-label">Inicio <span style="color: red">*</span></label>
-				<input type="text" name="started_at" id="started_at" class="form-control">
+				<input type="text" name="started_at" id="started_at" class="form-control @error('started_at') is-invalid @enderror" value="{{old('started_at')}}">
+				@error('started_at')
+				<div class="invalid-feedback">{{$message}}</div>
+				@else
 				<div class="form-text">Fecha de inicio del servicio</div>
+				@enderror
 			</div>
 			<div class="col-md-4">	
 				<div class="mb-3">

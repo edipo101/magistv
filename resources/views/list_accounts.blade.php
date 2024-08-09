@@ -19,7 +19,7 @@
 		<tbody>
 			@foreach ($accounts as $account)
 			<tr class="table-active">
-				<td><img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"></td>
+				<td></td>
 				<td><a href="#">{{$account->username}}</a></td>
 				<td>{{$account->plan->name}}</td>
 				<td>{{$account->plan->months}}</td>

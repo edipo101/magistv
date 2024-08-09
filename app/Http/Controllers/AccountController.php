@@ -47,7 +47,12 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $validated = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'started_at' => 'required',
+        ]);
+
         $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
         $plan = Plan::find($request->plan_id);
 
@@ -55,7 +60,6 @@ class AccountController extends Controller
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
         else
             $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
-        // return $finished_at;
 
         $account = Account::create([
             'username' => $request->username,
