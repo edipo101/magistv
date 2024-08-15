@@ -6,14 +6,21 @@ use App\Helpers\PaginationHelper;
 use App\Models\Account;
 use App\Models\Device;
 use App\Models\Plan;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class AccountController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $accounts = Account::orderByDesc('id')->get();
@@ -47,11 +54,21 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // return $request;
+        $rules = [
             'username' => 'required',
-            'password' => 'required',
+            'passwd' => 'required',
+            'plan_id' => 'required',
+            'customer_name' => 'required',
+            'phone' => 'required',
             'started_at' => 'required',
-        ]);
+        ];
+
+        if (!$request->calculate)
+            $rules = Arr::add($rules, 'finished_at', 'required');
+        // return $rules;
+
+        $validated = $request->validate($rules);
 
         $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
         $plan = Plan::find($request->plan_id);
@@ -73,6 +90,7 @@ class AccountController extends Controller
             'name' =>  $request->customer_name,
             'phone' => $request->phone,
             'account_id' => $account->id,
+            'quantity' => $request->quantity,
             'plan_id' => $request->plan_id,
             'started_at' => $started_at,
             'finished_at' => $finished_at,
@@ -97,6 +115,7 @@ class AccountController extends Controller
             'name' =>  $request->customer_name,
             'phone' => $request->phone,
             'account_id' => $account->id,
+            'quantity' => $request->quantity,
             'plan_id' => $request->plan_id,
             'started_at' => $started_at,
             'finished_at' => $finished_at,
@@ -134,6 +153,9 @@ class AccountController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $account = Account::find($id);
+        $account->devices()->delete();
+        $account->delete();
+        return redirect()->back();
     }
 }

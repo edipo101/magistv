@@ -2,23 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DeviceController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     public function index()
     {
-        $devices = Device::orderBy('account_id')->orderBy('created_at')->paginate(12);
-        return view('list_devices', compact('devices'));
+        return view('login');
+    }
+
+    public function login(Request $request){
+        $credentials = $request->only('username', 'password');
+        if (Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect('dashboard');
+        }
+        return redirect()->route('login')->with('status', 'Nombre de usuario o contraseña inválidos!');
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->regenerate();
+        return redirect()->route('login');
     }
 
     /**
@@ -66,8 +75,6 @@ class DeviceController extends Controller
      */
     public function destroy(string $id)
     {
-        $device = Device::find($id);
-        $device->delete();
-        return redirect()->back();
+        //
     }
 }

@@ -20,7 +20,7 @@
 				</a>
 
 				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-					<li><a href="{{route('home')}}" class="nav-link px-2 link-body-emphasis">Inicio</a></li>
+					<li><a href="{{route('dashboard')}}" class="nav-link px-2 link-body-emphasis">Inicio</a></li>
 					<li><a href="#" class="nav-link px-2 link-secondary">Planes</a></li>
 					<li><a href="{{route('accounts.index')}}" class="nav-link px-2 link-body-emphasis">Cuentas</a></li>
 					<li><a href="#" class="nav-link px-2 link-secondary">Dispositivos</a></li>
@@ -35,11 +35,15 @@
 						<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
 					</a>
 					<ul class="dropdown-menu text-small" style="">
-						<li><a class="dropdown-item" href="#">New project...</a></li>
-						<li><a class="dropdown-item" href="#">Settings</a></li>
-						<li><a class="dropdown-item" href="#">Profile</a></li>
+						<li><a class="dropdown-item" href="#">Configuración</a></li>
+						<li><a class="dropdown-item" href="#">Perfil</a></li>
 						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#">Sign out</a></li>
+						<li>
+							<form action="{{route('logout')}}" method="post">
+								@csrf
+								<a class="dropdown-item" href="#" onclick="this.closest('form').submit()">Salir</a>
+							</form>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -51,6 +55,5 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 </body>
 </html>
