@@ -40,7 +40,7 @@
 				<select class="form-select @error('quantity') is-invalid @enderror" name="quantity" id="quantity">
 					<option selected="">1</option>
 					{{-- <option>2</option> --}}
-					@if(isset($account) && ($account->number_devices < 2)) <option>2</option> @endif
+					@if((!isset($account)) || isset($account) && ($account->number_devices < 2)) <option>2</option> @endif
 					@if(!isset($account)) <option>3</option> @endif
 				</select>
 

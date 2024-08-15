@@ -19,7 +19,7 @@
 		<tbody>
 			@foreach ($accounts as $account)
 			<tr class="table-active">
-				<td></td>
+				<td>{{$account->id}}</td>
 				<td><a href="#">{{$account->username}}</a></td>
 				<td>{{$account->plan->name}}</td>
 				<td>{{$account->plan->months}}</td>
@@ -36,15 +36,15 @@
 					@if($account->number_devices < 3)
 					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button></a>
 					@endif
-					<button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button>
-					<button id="btnAccount" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}">Eliminar</button>
+					{{-- <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button> --}}
+					<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}">Eliminar</button>
 				</td>
 			</tr>
 			@if($account->devices->count() > 0)
 			@php $devices = $account->devices @endphp
 			@foreach($devices as $device)
 			<tr>
-				<td></td>
+				<td><i class="bi bi-person-square"></i></td>
 				<td>
 					<span>{{$device->name}}<br></span>
 					<small class="link-secondary">{{$device->phone}}</small>
@@ -70,7 +70,7 @@
 				</td>
 				<td>
 					<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-sm"><i class="bi bi-whatsapp"></i> Enviar</button></a>
-					<button id="btnDevice" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}">Eliminar</button>
+					<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}">Eliminar</button>
 				</td>
 			</tr>
 			@endforeach
@@ -92,7 +92,7 @@
 					<p>¡Se eliminaran también los dispositivos asociados a la cuenta!	</p>					
 				</div>
 				<div class="modal-footer">
-					<form id="formDelAccount" action="{{route('accounts.destroy', ['id' => 10])}}" method="post">
+					<form id="formDelAccount" action="#" method="post">
 						@csrf
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 					<input id="account_id" type="hidden" name="id" value="">
@@ -115,7 +115,7 @@
 					<p>¿Esta seguro de eliminar el dispositivo con el nombre <strong id="nameDevice"></strong>?</p>
 				</div>
 				<div class="modal-footer">
-					<form id="formDelDevice" action="{{route('accounts.destroy', ['id' => 10])}}" method="post">
+					<form id="formDelDevice" action="#" method="post">
 						@csrf
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 					<input id="device_id" type="hidden" name="id" value="">
@@ -132,7 +132,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#btnAccount").on("click",  function () {
+		$(".btnAccount").on("click",  function () {
         let info = $(this).data('info');
         let id = $(this).data('id');
 				let base = "{{url('').'/accounts/destroy/'}}"+id;
@@ -142,7 +142,7 @@
         console.log(info);
     });
 
-    $("#btnDevice").on("click",  function () {
+    $(".btnDevice").on("click",  function () {
         let info = $(this).data('info');
         let id = $(this).data('id');
 				let base = "{{url('').'/devices/destroy/'}}"+id;
@@ -151,7 +151,7 @@
         $('#formDelDevice').attr("action", base);
         console.log(info);
         console.log(id);
-        console.log(base		);
+        console.log(base);
     });
 	});
 </script>
