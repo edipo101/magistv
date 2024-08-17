@@ -29,6 +29,7 @@ Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.ind
 Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
 Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
 Route::get('/accounts/edit/{id}', [AccountController::class, 'edit'])->name('accounts.edit');
+Route::post('/accounts/update/{id}', [AccountController::class, 'update'])->name('accounts.update');
 Route::get('/accounts/add-device/{account}', [AccountController::class, 'add_device'])->name('accounts.add_device');
 Route::post('/accounts/add-device', [AccountController::class, 'store_add_device'])->name('accounts.store.add_device');
 Route::post('/accounts/destroy/{id}', [AccountController::class, 'destroy'])->name('accounts.destroy');

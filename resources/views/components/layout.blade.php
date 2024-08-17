@@ -10,6 +10,7 @@
 	<!-- Enlaza Font Awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 </head>
 <body>
 	<header class="p-3 mb-3 border-bottom">

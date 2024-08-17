@@ -138,7 +138,10 @@ class AccountController extends Controller
     public function edit(string $id)
     {
         $account = Account::find($id);
-        return $account;
+        $plans = Plan::all();
+        $state = 'account_edition';
+        return view('account_edit', compact('plans', 'account', 'state'));
+        // return $account;
     }
 
     /**
@@ -146,7 +149,37 @@ class AccountController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // return $request;
+        $rules = [
+            'username' => 'required',
+            'passwd' => 'required',
+            'plan_id' => 'required',
+            'started_at' => 'required',
+        ];
+
+        if (!$request->calculate)
+            $rules = Arr::add($rules, 'finished_at', 'required');
+
+        $validated = $request->validate($rules);
+
+        $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $plan = Plan::find($request->plan_id);
+
+        if ($request->calculate)
+            $finished_at = Carbon::create($started_at)->addMonths($plan->months);
+        else
+            $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+
+        $account = Account::find($id);
+        $account->update([
+            'username' => $request->username,
+            'password' => $request->passwd,
+            'plan_id' => $request->plan_id,
+            'started_at' => $started_at,
+            'finished_at' => $finished_at,
+        ]);
+
+        return redirect()->route('accounts.index');
     }
 
     /**

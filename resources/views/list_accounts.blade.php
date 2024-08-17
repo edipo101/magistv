@@ -34,10 +34,10 @@
 				<td>Total dispositivos: {{$account->number_devices}}</td>
 				<td>
 					@if($account->number_devices < 3)
-					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button></a>
+					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-circle"><i class="fas fa-solid fa-tv"></i></button></a>
 					@endif
-					<a href="{{route('accounts.edit', ['id' => $account->id])}}"><button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button></a>
-					<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}">Eliminar</button>
+					<a href="{{route('accounts.edit', ['id' => $account->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
+					<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount btn-circle" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}"><i class="fa fa-times"></i></button>
 				</td>
 			</tr>
 			@if($account->devices->count() > 0)
@@ -69,8 +69,8 @@
 					@endif
 				</td>
 				<td>
-					<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-sm"><i class="bi bi-whatsapp"></i> Enviar</button></a>
-					<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}">Eliminar</button>
+					<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
+					<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
 				</td>
 			</tr>
 			@endforeach

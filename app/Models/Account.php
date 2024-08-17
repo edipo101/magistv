@@ -14,7 +14,7 @@ class Account extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'plan_id', 'started_at', 'finished_at', 'active'];    
+    protected $fillable = ['username', 'password', 'plan_id', 'started_at', 'finished_at', 'active'];    
 
     public function plan(): BelongsTo
     {
