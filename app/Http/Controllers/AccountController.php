@@ -137,7 +137,8 @@ class AccountController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $account = Account::find($id);
+        return $account;
     }
 
     /**

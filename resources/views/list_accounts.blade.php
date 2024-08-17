@@ -36,7 +36,7 @@
 					@if($account->number_devices < 3)
 					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-sm"><i class="fas fa-solid fa-tv"></i> Agregar</button></a>
 					@endif
-					{{-- <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button> --}}
+					<a href="{{route('accounts.edit', ['id' => $account->id])}}"><button type="button" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-pen"></i> Editar</button></a>
 					<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}">Eliminar</button>
 				</td>
 			</tr>
