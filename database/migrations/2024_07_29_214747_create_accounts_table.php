@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('username');
+            $table->string('password');
             $table->foreignId('plan_id')->constrained();
             $table->date('started_at');
             $table->date('finished_at');

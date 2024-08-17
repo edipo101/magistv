@@ -1,11 +1,12 @@
 <x-layout>	
+	<div class="row mb-3">
 	<h2>Listado de cuentas con dispositivos</h2>
-	<p>Total registros: {{$accounts->total()}}</p>
 	<a href="{{route('accounts.create')}}"><button type="button" class="btn btn-success">Crear nueva cuenta</button></a>
+	</div>
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
+				<th>#</th>
 				<th>Cuenta</th>
 				<th>Plan</th>
 				<th>Meses</th>
@@ -19,7 +20,7 @@
 		<tbody>
 			@foreach ($accounts as $account)
 			<tr class="table-active">
-				<td>{{$account->id}}</td>
+				<td><img src="https://styles.redditmedia.com/t5_bsa9br/styles/communityIcon_l22kg2y2yp7d1.png" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0"></td>
 				<td><a href="#">{{$account->username}}</a></td>
 				<td>{{$account->plan->name}}</td>
 				<td>{{$account->plan->months}}</td>
@@ -44,7 +45,7 @@
 			@php $devices = $account->devices @endphp
 			@foreach($devices as $device)
 			<tr>
-				<td><i class="bi bi-person-square"></i></td>
+				<td><img src="https://w7.pngwing.com/pngs/945/530/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0"></td>
 				<td>
 					<span>{{$device->name}}<br></span>
 					<small class="link-secondary">{{$device->phone}}</small>
@@ -77,6 +78,7 @@
 			@endif
 			@endforeach
 		</tbody>
+		<caption>Total cuentas registradas: {{$accounts->total()}}</caption>
 	</table>
 
 	<!-- Modal -->

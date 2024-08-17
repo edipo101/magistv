@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('started_at');
             $table->date('finished_at');
             $table->integer('quantity')->unsigned()->default(1);
+            $table->integer('an_account')->unsigned()->default(0);
+            $table->text('additional_data')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

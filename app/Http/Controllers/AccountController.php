@@ -72,6 +72,7 @@ class AccountController extends Controller
 
         $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
         $plan = Plan::find($request->plan_id);
+        $an_account = (is_null($request->an_account) ? 0 : $request->an_account);
 
         if ($request->calculate)
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
@@ -80,6 +81,7 @@ class AccountController extends Controller
 
         $account = Account::create([
             'username' => $request->username,
+            'password' => $request->passwd,
             'plan_id' => $request->plan_id,
             'started_at' => $started_at,
             'finished_at' => $finished_at,
@@ -92,6 +94,8 @@ class AccountController extends Controller
             'account_id' => $account->id,
             'quantity' => $request->quantity,
             'plan_id' => $request->plan_id,
+            'an_account' => $an_account,
+            'additional_data' => $request->additional_data,
             'started_at' => $started_at,
             'finished_at' => $finished_at,
             'active' => true
@@ -102,9 +106,22 @@ class AccountController extends Controller
     public function store_add_device(Request $request)
     {
         // return $request;
+        $rules = [
+            'plan_id' => 'required',
+            'customer_name' => 'required',
+            'phone' => 'required',
+            'started_at' => 'required',
+        ];
+
+        if (!$request->calculate)
+            $rules = Arr::add($rules, 'finished_at', 'required');
+        // return $rules;
+        $validated = $request->validate($rules);
+        
         $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
         $account = Account::find($request->account_id);
         $plan = Plan::find($request->plan_id);
+        $an_account = (is_null($request->an_account) ? 0 : $request->an_account);
 
         if ($request->calculate)
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
@@ -117,6 +134,8 @@ class AccountController extends Controller
             'account_id' => $account->id,
             'quantity' => $request->quantity,
             'plan_id' => $request->plan_id,
+            'an_account' => $an_account,
+            'additional_data' => $request->additional_data,
             'started_at' => $started_at,
             'finished_at' => $finished_at,
             'active' => true

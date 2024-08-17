@@ -105,13 +105,13 @@
 				@error('phone') <div class="invalid-feedback">{{$message}}</div> @enderror
 			</div>
 			<div class="mb-3 col-md-4">
-				<label for="a_cuenta" class="form-label">A cuenta (Bs.)</label>
-				<input type="text" name="a_cuenta" id="a_cuenta" class="form-control">
+				<label for="an_account" class="form-label">A cuenta (Bs.)</label>
+				<input type="text" name="an_account" id="an_account" class="form-control">
 				<div class="form-text">Monto cancelado o adelantado por el cliente</div>
 			</div>
 			<div class="mb-3">
-				<label for="obs" class="form-label">Datos adicionales</label>
-				<textarea id="obs" class="form-control" name="obs" id="floatingTextarea"></textarea>
+				<label for="additional_data" class="form-label">Datos adicionales</label>
+				<textarea id="additional_data" class="form-control" name="additional_data" id="floatingTextarea"></textarea>
 				<div class="form-text">Datos adicionales con respecto al cliente y su pago.</div>
 			</div>
 		</div>
@@ -124,12 +124,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("input[name='calculate']").on('change',function(){
-			if($(this).val()=="on"){
-				$("input[name='finished_at']").prop("disabled",false);
-				$(this).val('');
-			}else{
-				$("input[name='finished_at']").prop("disabled",true);
-				$(this).val('on');
+			if($("input[name='finished_at").prop('disabled') == true)
+				$("input[name='finished_at']").prop("disabled", false);
+			else{
+				$("input[name='finished_at']").prop("disabled", true);
+				$("input[name='finished_at']").val('');
 			}
 		});
 	});
