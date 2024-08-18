@@ -33,22 +33,32 @@
 					</div>
 				</td>
 				<td>Total dispositivos: {{$account->number_devices}}</td>
+				{{-- Buttons --}}
 				<td>
-					@if($account->number_devices < 3)
-					<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-circle"><i class="fas fa-solid fa-tv"></i></button></a>
-					@endif
-					<a href="{{route('accounts.edit', ['id' => $account->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
-					<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount btn-circle" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}"><i class="fa fa-times"></i></button>
+					<div class="d-flex gap-2">
+						@if($account->number_devices < 3)
+						<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-circle"><i class="fas fa-solid fa-tv"></i></button></a>
+						@endif
+						<a href="{{route('accounts.edit', ['id' => $account->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
+						<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount btn-circle" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}"><i class="fa fa-times"></i></button>
+					</div>
 				</td>
 			</tr>
 			@if($account->devices->count() > 0)
 			@php $devices = $account->devices @endphp
 			@foreach($devices as $device)
 			<tr>
-				<td><img src="https://w7.pngwing.com/pngs/945/530/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0"></td>
-				<td>
-					<span>{{$device->name}}<br></span>
-					<small class="link-secondary">{{$device->phone}}</small>
+				{{-- <td><img src="https://w7.pngwing.com/pngs/945/530/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+				</td> --}}
+				<td colspan="2">
+					{{-- <span>{{$device->name}}<br></span> --}}
+					{{-- <small class="link-secondary">{{$device->phone}}</small> --}}
+					<div class="d-flex gap-2">
+						<img src="{{asset('assets/images/user.png')}}" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0">
+						<span>
+							{{$device->name}}
+							<small class="d-block text-body-secondary">{{$device->phone}}</small>
+						</span>
 					</div>
 				</td>
 				<td>{{$device->plan->name}}</td>
@@ -69,9 +79,12 @@
 						<small>Vence en {{$device->days_remaining}} días</small>
 					@endif
 				</td>
+				{{-- Buttons --}}
 				<td>
-					<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
-					<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
+					<div class="d-flex gap-2">
+						<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
+						<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
+					</div> 
 				</td>
 			</tr>
 			@endforeach
