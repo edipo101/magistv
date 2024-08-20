@@ -40,7 +40,7 @@ class Account extends Model
             get: fn() => ($this->total_days - $this->days_elapsed),
     	);
     }
-
+    
     protected function totalDays(): Attribute
     {
     	return Attribute::make(
