@@ -68,16 +68,21 @@ class AccountController extends Controller
             $rules = Arr::add($rules, 'finished_at', 'required');
         // return $rules;
 
-        $validated = $request->validate($rules);
+        $messages = [
+            '*.required' => 'Este campo es obligatorio.'
+        ];
 
-        $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $validated = $request->validate($rules, $messages);
+
+        // $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $started_at = $request->started_at;
         $plan = Plan::find($request->plan_id);
         $an_account = (is_null($request->an_account) ? 0 : $request->an_account);
 
         if ($request->calculate)
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
         else
-            $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+            $finished_at = $request->finished_at;
 
         $account = Account::create([
             'username' => $request->username,
@@ -115,10 +120,15 @@ class AccountController extends Controller
 
         if (!$request->calculate)
             $rules = Arr::add($rules, 'finished_at', 'required');
-        // return $rules;
-        $validated = $request->validate($rules);
         
-        $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $messages = [
+            '*.required' => 'Este campo es obligatorio.'
+        ];
+        // return 
+        $validated = $request->validate($rules, $messages);
+        
+        // $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $started_at = $request->started_at;
         $account = Account::find($request->account_id);
         $plan = Plan::find($request->plan_id);
         $an_account = (is_null($request->an_account) ? 0 : $request->an_account);
@@ -126,7 +136,8 @@ class AccountController extends Controller
         if ($request->calculate)
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
         else
-            $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+            // $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+            $finished_at = $request->finished_at;
         
         $device = Device::create([
             'name' =>  $request->customer_name,

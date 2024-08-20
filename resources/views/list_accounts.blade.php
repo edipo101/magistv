@@ -76,7 +76,11 @@
 					@if($device->progress > 100)
 						<small style="color: red">Tiempo finalizado</small>
 					@else 
+						@if($device->days_remaining < 1)
+						<span class="badge text-bg-danger">Finalizado</span>
+						@else
 						<small>Vence en {{$device->days_remaining}} días</small>
+						@endif
 					@endif
 				</td>
 				{{-- Buttons --}}

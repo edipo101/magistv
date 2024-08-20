@@ -36,7 +36,8 @@ class Account extends Model
     protected function daysRemaining(): Attribute
     {
     	return Attribute::make(
-    		get: fn() => Carbon::now()->diffInDays($this->finished_at),
+    		// get: fn() => Carbon::now()->diffInDays($this->finished_at),
+            get: fn() => ($this->total_days - $this->days_elapsed),
     	);
     }
 

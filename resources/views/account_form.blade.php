@@ -12,14 +12,14 @@
 		<div class="row mb-3">
 			@if(!isset($account)) 
 			<h4 class="mb-3">Datos de la cuenta</h4>	
-			<div class="mb-3 col-md-6">
+			<div class="mb-3 col-md-4">
 				<label for="username" class="form-label">Nombre de usuario <span style="color: red">*</span></label>
 				<input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" aria-describedby="emailHelp" value="{{old('username')}}">
 				@error('username') <div class="invalid-feedback">{{$message}}</div>
 				@else	<div id="emailHelp" class="form-text">Nombre de usuario para la cuenta MagisTV.</div>
 				@enderror
 			</div>
-			<div class="mb-3 col-md-6">
+			<div class="mb-3 col-md-4">
 				<label for="passwd" class="form-label">Contraseña <span style="color: red">*</span></label>
 				<input type="text" 
 					class="form-control @error('passwd') is-invalid @enderror" id="passwd" name="passwd" value="{{old('passwd')}}">
@@ -59,7 +59,7 @@
 			</div>
 			<div class="mb-3 col-md-3">
 				<label for="started_at" class="form-label">Inicio <span style="color: red">*</span></label>
-				<input type="text" name="started_at" id="started_at" class="form-control @error('started_at') is-invalid @enderror" value="{{old('started_at')}}">
+				<input type="date" name="started_at" id="started_at" class="form-control @error('started_at') is-invalid @enderror" value="{{old('started_at')}}">
 				@error('started_at')
 				<div class="invalid-feedback">{{$message}}</div>
 				@else
@@ -69,7 +69,7 @@
 			<div class="col-md-3">	
 				<div class="mb-3">
 					<label for="finished_at" class="form-label">Fin</label>
-					<input type="text" name="finished_at" id="finished_at" 
+					<input type="date" name="finished_at" id="finished_at" 
 						class="form-control @error('finished_at') is-invalid @enderror" 
 						@error('finished_at') @else disabled @enderror >
 						@error('finished_at') <div class="invalid-feedback">{{$message}}</div>
