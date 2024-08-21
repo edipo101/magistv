@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Plan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class DeviceController extends Controller
 {
@@ -50,7 +53,10 @@ class DeviceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $device = Device::find($id);
+        $plans = Plan::all();
+        return view('device_edit', compact('plans', 'device'));
+        // return $device;
     }
 
     /**
@@ -58,7 +64,46 @@ class DeviceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $rules = [
+            'plan_id' => 'required',
+            'started_at' => 'required|date',
+            'customer_name' => 'required',
+            'phone' => 'required',            
+            'an_account' => 'required',            
+        ];
+
+        if (!$request->calculate)
+            $rules = Arr::add($rules, 'finished_at', 'required|date');
+
+        $messages = [
+            '*.required' => 'Este campo es obligatorio.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
+
+        // return [$rules, $request->all(), $id];
+
+        $started_at = $request->started_at;
+        $plan = Plan::find($request->plan_id);
+        $an_account = (is_null($request->an_account) ? 0 : $request->an_account);
+
+        if ($request->calculate)
+            $finished_at = Carbon::create($started_at)->addMonths($plan->months);
+        else
+            $finished_at = $request->finished_at;
+
+        $device = Device::find($id);
+        $device->update([
+            'name' =>  $request->customer_name,
+            'phone' => $request->phone,
+            'quantity' => $request->quantity,
+            'plan_id' => $request->plan_id,
+            'an_account' => $an_account,
+            'additional_data' => $request->additional_data,
+            'started_at' => $started_at,
+            'finished_at' => $finished_at,
+        ]);
+        return redirect()->route('accounts.index');
     }
 
     /**

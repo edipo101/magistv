@@ -1,16 +1,16 @@
 <x-layout>
 	@php
-	$route = ($state == 'account_edition') ? 'accounts.update' : 'accounts.store.add_device';
+	$route = ($state == 'account_edition') ? 
+		route('accounts.update', ['id' => $account->id]) : route('devices.update', ['id' => $device->id]);
 	$title = ($state == 'account_edition') ? 'Editar cuenta' : 'Editar dispositivo';
 	@endphp
 	<h2 class="mb-3">{{$title}}</h2>
 	{{-- @if(isset($account)) <p>Nota: Esta cuenta actualmente contiene {{$account->number_devices}} dispositivos</p> @endif --}}
 
-	<form action="{{route($route, ['id' => $account->id])}}" method="post">
+	<form action="{{$route}}" method="post">
 		{{-- {{$errors->count()}} --}}
 		{{-- {{old('passwd')}} --}}
 		@csrf
-		<input type="hidden" name="account_id" value="{{$account->id}}">
 		<div class="row mb-3">
 			@if($state == 'account_edition') 
 			<h4 class="mb-3">Datos de la cuenta</h4>	
@@ -37,6 +37,7 @@
 		<div class="row mb-3">	
 			<h4 class="mb-3">Datos del plan</h4>
 			
+			{{-- Quantity devices--}}
 			@if($state == 'device_edition') 
 			<div class="mb-3 col-md-2">
 				<label for="quantity" class="form-label">Cant. dispositivos</label>
@@ -68,7 +69,7 @@
 							echo 'selected';
 							$selected = true;
 						}
-						if (($account->plan_id == $plan->id) && !($selected)) {
+						if(($account->plan_id == $plan->id) && !($selected)) {
 							$selected = true;
 							echo 'selected';
 						}

@@ -136,7 +136,6 @@ class AccountController extends Controller
         if ($request->calculate)
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
         else
-            // $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
             $finished_at = $request->finished_at;
         
         $device = Device::create([
