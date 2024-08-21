@@ -1,27 +1,41 @@
 <x-layout>	
 	<div class="row mb-3">
+		<div class="d-flex justify-content-between">
 		<h2>Listado de cuentas con dispositivos</h2>
 		<a href="{{route('accounts.create')}}"><button type="button" class="btn btn-success">Crear nueva cuenta</button></a>
+		</div>
 	</div>
+
+	{{-- <div class="d-flex mb-2 gap-2">
+		<button class="btn btn-primary btn-sm">Nuevo</button>
+		<button class="btn btn-primary btn-sm">Nuevo</button>
+		<form action="#">
+			<input type="search" placeholder="Buscar...">
+		</form>
+	</div> --}}
+
 	<table class="table table-bordered" id="accounts-list">
 		<thead>
 			<tr>
 				{{-- <th>#</th> --}}
-				<th style="width: 250px">Cuenta</th>
-				<th>Plan</th>
+				<th class="col-account">Cuenta</th>
+				<th class="col-plain">Plan</th>
 				{{-- <th>Meses</th> --}}
-				<th>Inicio</th>
-				<th>Fin</th>
+				<th class="col-date">Inicio</th>
+				<th class="col-date">Fin</th>
 				{{-- <th>Trans.</th> --}}
-				<th>Progreso</th>
-				<th>Información Adicional</th>
+				<th class="col-progress">Progreso</th>
+				<th class="additional-data">Información Adicional</th>
 				<th></th>
 			</tr>
 		</thead>
+	</table>
+
+	@foreach ($accounts as $account)
+	<table class="table table-bordered mb-4">
 		<tbody>
-			@foreach ($accounts as $account)
 			<tr class="table-active">
-				<td>
+				<td class="col-account">
 					<div class="d-flex gap-2">	
 						<img src="https://styles.redditmedia.com/t5_bsa9br/styles/communityIcon_l22kg2y2yp7d1.png" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0">
 						<span>{{$account->username}} </span>
@@ -39,15 +53,15 @@
 					</div>
 				</td>
 				{{-- <td><a href="#">{{$account->username}}</a></td> --}}
-				<td>
+				<td class="col-plain">
 					{{$account->plan->name}}
 					<small class="d-block">{{$account->plan->months}} {{($account->plan->months > 1) ? 'meses' : 'mes'}}</small>
 				</td>
 				{{-- <td>{{$account->plan->months}}</td> --}}
-				<td>{{Carbon\Carbon::parse($account->started_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
-				<td>{{Carbon\Carbon::parse($account->finished_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
+				<td class="col-date">{{Carbon\Carbon::parse($account->started_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
+				<td class="col-date">{{Carbon\Carbon::parse($account->finished_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
 				{{-- <td>{{$account->days_elapsed}}/{{$account->total_days}}</td> --}}
-				<td>
+				<td class="col-progress">
 					<div class="progress border" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
 						<div class="progress-bar
 						@if($account->days_remaining < 1) bg-danger 
@@ -61,7 +75,8 @@
 						<small>{{$account->progress}}%</small>
 					</div>
 				</td>
-				<td>					
+				<td class="additional-data">
+					<small>
 					Total dispositivos: {{$account->number_devices}}
 					</small>
 				</td>
@@ -119,7 +134,7 @@
 						<small>{{$device->progress}}%</small>
 					</div>
 				</td>
-				<td class="additional-data">
+				<td>
 					{{-- <small>Cant. dispositivos: {{$device->quantity}}</small> <br>					 --}}
 					<small class="d-block mb-1">
 						@if($device->days_remaining < 1)
@@ -134,31 +149,30 @@
 					</small>
 					<small class="d-block">{{Str::limit($device->additional_data, 30)}} 
 						@if(Str::length($device->additional_data) > 30)
-						<a data-bs-toggle="collapse" href="#collapseExample{{$device->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$device->id}}">
-							<i class="bi bi-info-circle"></i></a>
-							@endif
-						</small>
-						<div class="collapse" id="collapseExample{{$device->id}}">
-							<div class="card card-body p-1" style="width: 250px">
-								<small class="fst-italic">{{$device->additional_data}} </small>
-							</div>
-
-						</td>
-						{{-- Buttons --}}
-						<td>
-							<div class="d-flex gap-2">
-								<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
-								<a href="{{route('devices.edit', ['id' => $device->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
-								<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
-							</div> 
-						</td>
-					</tr>
-					@endforeach
-					@endif
-					@endforeach
-				</tbody>
-				<caption>Total cuentas registradas: {{$accounts->total()}}</caption>
-			</table>
+						<a data-bs-toggle="collapse" href="#collapseExample{{$device->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$device->id}}"><i class="bi bi-info-circle"></i></a>
+						@endif
+					</small>
+					<div class="collapse" id="collapseExample{{$device->id}}">
+						<div class="card card-body p-1" style="width: 250px">
+							<small class="fst-italic">{{$device->additional_data}} </small>
+						</div>
+					</div>
+				</td>
+				{{-- Buttons --}}
+				<td>
+					<div class="d-flex gap-2">
+						<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
+						<a href="{{route('devices.edit', ['id' => $device->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
+						<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
+					</div> 
+				</td>
+			</tr>
+			@endforeach
+			@endif
+		</tbody>
+	{{-- <caption>Total cuentas registradas: {{$accounts->total()}}</caption> --}}
+	</table>
+	@endforeach
 
 			<!-- Modal -->
 			<div class="modal fade" id="modalAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

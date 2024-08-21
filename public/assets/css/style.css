@@ -17,6 +17,22 @@
     line-height: 1.42857;
 }
 
-td.additional-data{
+th.additional-data, td.additional-data{
     width: 270px;
+}
+
+th.col-account, td.col-account{
+    width: 250px;
+}
+
+th.col-plain, td.col-plain{
+    width: 80px;
+}
+
+th.col-date, td.col-date{
+    width: 120px;
+}
+
+th.col-progress, td.col-progress{
+    width: 120px;
 }
