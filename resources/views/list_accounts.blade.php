@@ -6,30 +6,43 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>#</th>
-				<th>Cuenta</th>
+				{{-- <th>#</th> --}}
+				<th style="width: 250px">Cuenta</th>
 				<th>Plan</th>
-				<th>Meses</th>
+				{{-- <th>Meses</th> --}}
 				<th>Inicio</th>
 				<th>Fin</th>
-				<th>Trans.</th>
+				{{-- <th>Trans.</th> --}}
 				<th>Progreso</th>
 				<th>Información Adicional</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach ($accounts as $account)
 			<tr class="table-active">
-				<td><img src="https://styles.redditmedia.com/t5_bsa9br/styles/communityIcon_l22kg2y2yp7d1.png" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0"></td>
-				<td><a href="#">{{$account->username}}</a></td>
-				<td>{{$account->plan->name}}</td>
-				<td>{{$account->plan->months}}</td>
+				<td>
+					<div class="d-flex gap-2">	
+						<img src="https://styles.redditmedia.com/t5_bsa9br/styles/communityIcon_l22kg2y2yp7d1.png" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0">
+						<span>{{$account->username}}</span>
+					</div>
+				</td>
+				{{-- <td><a href="#">{{$account->username}}</a></td> --}}
+				<td>
+					{{$account->plan->name}}
+					<small class="d-block">{{$account->plan->months}} {{($account->plan->months > 1) ? 'meses' : 'mes'}}</small>
+				</td>
+				{{-- <td>{{$account->plan->months}}</td> --}}
 				<td>{{Carbon\Carbon::parse($account->started_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
 				<td>{{Carbon\Carbon::parse($account->finished_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
-				<td>{{$account->days_elapsed}}/{{$account->total_days}}</td>
+				{{-- <td>{{$account->days_elapsed}}/{{$account->total_days}}</td> --}}
 				<td>
 					<div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-						<div class="progress-bar" style="width: {{$account->progress}}%">{{$account->progress}}%</div>
+						<div class="progress-bar" style="width: {{$account->progress}}%"></div>
+					</div>
+					<div class="d-flex justify-content-between">
+						<small class="text-body-secondary">{{$account->days_elapsed}}/{{$account->total_days}}</small>
+						<small>{{$account->progress}}%</small>
 					</div>
 				</td>
 				<td>Total dispositivos: {{$account->number_devices}}</td>
@@ -50,37 +63,40 @@
 			<tr>
 				{{-- <td><img src="https://w7.pngwing.com/pngs/945/530/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
 				</td> --}}
-				<td colspan="2">
+				<td>
 					{{-- <span>{{$device->name}}<br></span> --}}
 					{{-- <small class="link-secondary">{{$device->phone}}</small> --}}
 					<div class="d-flex gap-2">
 						<img src="{{asset('assets/images/user.png')}}" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0">
 						<span>
-							{{$device->name}}
-							<small class="d-block text-body-secondary">{{$device->phone}}</small>
+							{{$device->name}} 
+							<small class="d-block"><i class="bi bi-phone"></i> {{$device->phone}} • <i class="bi bi-tv"></i> {{$device->quantity}}</small>
 						</span>
 					</div>
 				</td>
-				<td>{{$device->plan->name}}</td>
-				<td>{{$device->plan->months}}</td>
+				<td>
+					{{$device->plan->name}}
+					<small class="d-block text-body-secondary">{{$device->plan->months}} {{($device->plan->months > 1) ? 'meses' : 'mes'}}</small>
+				</td>
+				{{-- <td>{{$device->plan->months}}</td> --}}
 				<td>{{Carbon\Carbon::parse($device->started_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
 				<td>{{Carbon\Carbon::parse($device->finished_at)->locale('es-ES')->isoFormat('DD MMM Y')}}</td>
-				<td>{{$device->days_elapsed}}/{{$device->total_days}}</td>
+				{{-- <td>{{$device->days_elapsed}}/{{$device->total_days}}</td> --}}
 				<td>
 					<div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-						<div class="progress-bar bg-success" style="width: {{$device->progress}}%">{{$device->progress}}%</div>
+						<div class="progress-bar bg-success" style="width: {{$device->progress}}%"></div>
+					</div>
+					<div class="d-flex justify-content-between">
+						<small class="text-body-secondary">{{$account->days_elapsed}}/{{$account->total_days}}</small>
+						<small>{{$device->progress}}%</small>
 					</div>
 				</td>
 				<td>
-					<small>Cant. dispositivos: {{$device->quantity}}</small> <br>
-					@if($device->progress > 100)
-						<small style="color: red">Tiempo finalizado</small>
-					@else 
-						@if($device->days_remaining < 1)
-						<span class="badge text-bg-danger">Finalizado</span>
-						@else
-						<small>Vence en {{$device->days_remaining}} días</small>
-						@endif
+					<small>Cant. dispositivos: {{$device->quantity}}</small> <br>					
+					@if($device->days_remaining < 1)
+					<span class="badge text-bg-danger">Finalizado</span>
+					@else
+					<small>Vence en {{$device->days_remaining}} días</small>
 					@endif
 				</td>
 				{{-- Buttons --}}
