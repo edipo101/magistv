@@ -190,15 +190,19 @@ class AccountController extends Controller
         if (!$request->calculate)
             $rules = Arr::add($rules, 'finished_at', 'required');
 
-        $validated = $request->validate($rules);
+        $messages = [
+            '*.required' => 'Este campo es obligatorio.'
+        ];
 
-        $started_at = Carbon::createFromFormat('d/m/Y', $request->started_at)->format('Y-m-d');
+        $validated = $request->validate($rules, $messages);
+
+        $started_at = $request->started_at;
         $plan = Plan::find($request->plan_id);
 
         if ($request->calculate)
             $finished_at = Carbon::create($started_at)->addMonths($plan->months);
         else
-            $finished_at = Carbon::createFromFormat('d/m/Y', $request->finished_at)->format('Y-m-d');
+            $finished_at = $request->finished_at;
 
         $account = Account::find($id);
         $account->update([

@@ -81,8 +81,8 @@
 
 			<div class="mb-3 col-md-3">
 				<label for="started_at" class="form-label">Inicio <span style="color: red">*</span></label>
-				<input type="text" name="started_at" id="started_at" class="form-control @error('started_at') is-invalid @enderror" 
-				value="{{($errors->count() > 0) ? old('started_at') : \Carbon\Carbon::parse($account->started_at)->format('d/m/Y')}}">
+				<input type="date" name="started_at" id="started_at" class="form-control @error('started_at') is-invalid @enderror" 
+				value="{{($errors->count() > 0) ? old('started_at') : $account->started_at}}">
 				@error('started_at')
 				<div class="invalid-feedback">{{$message}}</div>
 				@else
@@ -93,10 +93,10 @@
 			<div class="col-md-3">	
 				<div class="mb-3">
 					<label for="finished_at" class="form-label">Fin</label>
-					<input type="text" name="finished_at" id="finished_at" 
+					<input type="date" name="finished_at" id="finished_at" 
 						class="form-control @error('finished_at') is-invalid @enderror" 
 						{{-- @error('finished_at') @else disabled @enderror --}}
-						value="{{($errors->count() > 0) ? old('finished_at') : \Carbon\Carbon::parse($account->finished_at)->format('d/m/Y')}}" >
+						value="{{($errors->count() > 0) ? old('finished_at') : $account->finished_at}}" >
 						@error('finished_at') <div class="invalid-feedback">{{$message}}</div>
 						@else <div class="form-text">Fecha de finalización del servicio</div>
 						@enderror
