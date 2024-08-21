@@ -24,7 +24,18 @@
 				<td>
 					<div class="d-flex gap-2">	
 						<img src="https://styles.redditmedia.com/t5_bsa9br/styles/communityIcon_l22kg2y2yp7d1.png" alt="twbs" width="30" height="30" class="rounded-circle flex-shrink-0">
-						<span>{{$account->username}}</span>
+						<span>{{$account->username}} </span>
+						<small class="d-block mb-1">
+						@if($account->days_remaining < 1)
+						<span class="badge text-bg-danger">Finalizado</span>
+						@elseif($account->days_remaining < 7)
+						<span class="badge text-bg-warning">Por finalizar</span>
+						@else
+						<span class="badge text-bg-success">En curso</span>
+						@endif 
+					</small>
+					<small class="d-block">
+					
 					</div>
 				</td>
 				{{-- <td><a href="#">{{$account->username}}</a></td> --}}
@@ -38,14 +49,23 @@
 				{{-- <td>{{$account->days_elapsed}}/{{$account->total_days}}</td> --}}
 				<td>
 					<div class="progress border" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-						<div class="progress-bar" style="width: {{$account->progress}}%"></div>
+						<div class="progress-bar
+						@if($account->days_remaining < 1) bg-danger 
+						@elseif($account->days_remaining < 7) bg-warning
+						@else bg-success
+						@endif" 
+						style="width: {{$account->progress}}%"></div>
 					</div>
 					<div class="d-flex justify-content-between">
 						<small class="text-body-secondary">{{$account->days_elapsed}}/{{$account->total_days}}</small>
 						<small>{{$account->progress}}%</small>
 					</div>
 				</td>
-				<td>Total dispositivos: {{$account->number_devices}}</td>
+				<td>					
+					Total dispositivos: {{$account->number_devices}}
+					</small>
+				</td>
+				
 				{{-- Buttons --}}
 				<td>
 					<div class="d-flex gap-2">
@@ -57,6 +77,7 @@
 					</div>
 				</td>
 			</tr>
+
 			@if($account->devices->count() > 0)
 			@php $devices = $account->devices @endphp
 			@foreach($devices as $device)
@@ -86,7 +107,12 @@
 				{{-- <td>{{$device->days_elapsed}}/{{$device->total_days}}</td> --}}
 				<td>
 					<div class="progress border" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-						<div class="progress-bar bg-success" style="width: {{$device->progress}}%"></div>
+						<div class="progress-bar 
+						@if($device->days_remaining < 1) bg-danger 
+						@elseif($device->days_remaining < 7) bg-warning
+						@else bg-success
+						@endif" 
+						style="width: {{$device->progress}}%"></div>
 					</div>
 					<div class="d-flex justify-content-between">
 						<small class="text-body-secondary">{{$device->days_elapsed}}/{{$device->total_days}}</small>
@@ -96,117 +122,117 @@
 				<td class="additional-data">
 					{{-- <small>Cant. dispositivos: {{$device->quantity}}</small> <br>					 --}}
 					<small class="d-block mb-1">
-					@if($device->days_remaining < 1)
-					<span class="badge text-bg-danger">Finalizado</span>
-					@elseif($device->days_remaining < 7)
-					<span class="badge text-bg-warning">Por finalizar</span>
-					@else
-					<span class="badge text-bg-success">En curso</span>
-					@endif 
-					• <i class="bi bi-tv"></i> {{$device->quantity}}
-					• <i class="bi bi-coin"></i> {{$device->an_account}} Bs
+						@if($device->days_remaining < 1)
+						<span class="badge text-bg-danger">Finalizado</span>
+						@elseif($device->days_remaining < 7)
+						<span class="badge text-bg-warning">Por finalizar</span>
+						@else
+						<span class="badge text-bg-success">En curso</span>
+						@endif 
+						• <i class="bi bi-tv"></i> {{$device->quantity}}
+						• <i class="bi bi-coin"></i> {{$device->an_account}} Bs
 					</small>
 					<small class="d-block">{{Str::limit($device->additional_data, 30)}} 
 						@if(Str::length($device->additional_data) > 30)
 						<a data-bs-toggle="collapse" href="#collapseExample{{$device->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$device->id}}">
-						<i class="bi bi-info-circle"></i></a>
-						@endif
-				</small>
-					<div class="collapse" id="collapseExample{{$device->id}}">
-						<div class="card card-body p-1" style="width: 250px">
-							<small class="fst-italic">{{$device->additional_data}} </small>
+							<i class="bi bi-info-circle"></i></a>
+							@endif
+						</small>
+						<div class="collapse" id="collapseExample{{$device->id}}">
+							<div class="card card-body p-1" style="width: 250px">
+								<small class="fst-italic">{{$device->additional_data}} </small>
+							</div>
+
+						</td>
+						{{-- Buttons --}}
+						<td>
+							<div class="d-flex gap-2">
+								<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
+								<a href="{{route('devices.edit', ['id' => $device->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
+								<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
+							</div> 
+						</td>
+					</tr>
+					@endforeach
+					@endif
+					@endforeach
+				</tbody>
+				<caption>Total cuentas registradas: {{$accounts->total()}}</caption>
+			</table>
+
+			<!-- Modal -->
+			<div class="modal fade" id="modalAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar cuenta</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
-
-					</td>
-					{{-- Buttons --}}
-					<td>
-						<div class="d-flex gap-2">
-							<a href="https://wa.me/591{{$device->phone}}" target="_blank"><button type="button" class="btn btn-success btn-circle"><i class="bi bi-whatsapp"></i></button></a>
-							<a href="{{route('devices.edit', ['id' => $device->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
-							<button id="btnDevice" type="button" class="btn btn-danger btn-sm btnDevice btn-circle" data-bs-toggle="modal" data-bs-target="#modalDevice" data-info="{{$device->name}}" data-id="{{$device->id}}"><i class="fa fa-times"></i></button>
-						</div> 
-					</td>
-				</tr>
-				@endforeach
-				@endif
-				@endforeach
-			</tbody>
-			<caption>Total cuentas registradas: {{$accounts->total()}}</caption>
-		</table>
-
-		<!-- Modal -->
-		<div class="modal fade" id="modalAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar cuenta</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<p>¿Esta seguro de eliminar la cuenta <strong id="code"></strong>?</p>
-						<p>¡Se eliminaran también los dispositivos asociados a la cuenta!	</p>					
-					</div>
-					<div class="modal-footer">
-						<form id="formDelAccount" action="#" method="post">
-							@csrf
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-							<input id="account_id" type="hidden" name="id" value="">
-							<button type="submit" class="btn btn-primary">Si, Eliminar</button>
-						</form>
+						<div class="modal-body">
+							<p>¿Esta seguro de eliminar la cuenta <strong id="code"></strong>?</p>
+							<p>¡Se eliminaran también los dispositivos asociados a la cuenta!	</p>					
+						</div>
+						<div class="modal-footer">
+							<form id="formDelAccount" action="#" method="post">
+								@csrf
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+								<input id="account_id" type="hidden" name="id" value="">
+								<button type="submit" class="btn btn-primary">Si, Eliminar</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Modal -->
-		<div class="modal fade" id="modalDevice" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar dispositivo</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<p>¿Esta seguro de eliminar el dispositivo con el nombre <strong id="nameDevice"></strong>?</p>
-					</div>
-					<div class="modal-footer">
-						<form id="formDelDevice" action="#" method="post">
-							@csrf
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-							<input id="device_id" type="hidden" name="id" value="">
-							<button type="submit" class="btn btn-primary">Si, Eliminar</button>
-						</form>
+			<!-- Modal -->
+			<div class="modal fade" id="modalDevice" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar dispositivo</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>¿Esta seguro de eliminar el dispositivo con el nombre <strong id="nameDevice"></strong>?</p>
+						</div>
+						<div class="modal-footer">
+							<form id="formDelDevice" action="#" method="post">
+								@csrf
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+								<input id="device_id" type="hidden" name="id" value="">
+								<button type="submit" class="btn btn-primary">Si, Eliminar</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		{{$accounts->links()}}
+			{{$accounts->links()}}
 
-	</x-layout>
+		</x-layout>
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$(".btnAccount").on("click",  function () {
-				let info = $(this).data('info');
-				let id = $(this).data('id');
-				let base = "{{url('').'/accounts/destroy/'}}"+id;
-				$('#code').html(info);
-				$('#account_id').val(id);
-				$('#formDelAccount').attr("action", base);
-				console.log(info);
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(".btnAccount").on("click",  function () {
+					let info = $(this).data('info');
+					let id = $(this).data('id');
+					let base = "{{url('').'/accounts/destroy/'}}"+id;
+					$('#code').html(info);
+					$('#account_id').val(id);
+					$('#formDelAccount').attr("action", base);
+					console.log(info);
+				});
+
+				$(".btnDevice").on("click",  function () {
+					let info = $(this).data('info');
+					let id = $(this).data('id');
+					let base = "{{url('').'/devices/destroy/'}}"+id;
+					$('#nameDevice').html(info);
+					$('#device_id').val(id);
+					$('#formDelDevice').attr("action", base);
+					console.log(info);
+					console.log(id);
+					console.log(base);
+				});
 			});
-
-			$(".btnDevice").on("click",  function () {
-				let info = $(this).data('info');
-				let id = $(this).data('id');
-				let base = "{{url('').'/devices/destroy/'}}"+id;
-				$('#nameDevice').html(info);
-				$('#device_id').val(id);
-				$('#formDelDevice').attr("action", base);
-				console.log(info);
-				console.log(id);
-				console.log(base);
-			});
-		});
-	</script>
+		</script>
