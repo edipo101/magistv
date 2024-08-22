@@ -36,3 +36,7 @@ th.col-date, td.col-date{
 th.col-progress, td.col-progress{
     width: 120px;
 }
+
+.ms-n5 {
+    margin-left: -40px;
+}
