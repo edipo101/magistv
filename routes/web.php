@@ -26,6 +26,7 @@ Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index'
 Route::post('/devices/destroy/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
 Route::get('/devices/edit/{id}', [DeviceController::class, 'edit'])->name('devices.edit');
 Route::post('/devices/update/{id}', [DeviceController::class, 'update'])->name('devices.update');
+Route::get('/devices/search', [DeviceController::class, 'search'])->name('devices.search');
 
 Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
 Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');

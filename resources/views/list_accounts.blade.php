@@ -4,7 +4,6 @@
 			<h2>Listado de cuentas con dispositivos</h2>
 		</div>
 	</div>
-
 	<div class="d-flex mb-3 gap-2 justify-content-between">
 		<div>
 			<a href="{{route('accounts.create')}}"><button type="button" class="btn btn-success btn-sm"><i class="bi bi-plus-circle"></i> Crear cuenta</button></a>
@@ -12,9 +11,9 @@
 			<button class="btn btn-primary btn-sm">Nuevo</button> --}}
 		</div>
 		<div>
-			<form action="#">
+			<form action="{{route('devices.search')}}" method='get'>
 				<div class="input-group">
-					<input class="form-control border-end-0 border" type="search" value="" id="example-search-input" placeholder="Buscar...">
+					<input class="form-control border-end-0 border" type="search" value="{{session('search')}}" name='s' id="example-search-input" placeholder="Buscar...">
 					<span class="input-group-append">
 						<button class="btn btn-outline-secondary border-start-0 border-bottom-0 border ms-n5" type="button">
 							<i class="fa fa-search"></i>
@@ -87,19 +86,23 @@
 						</div>
 					</td>
 					<td class="additional-data">
+						@if(!session('search'))
 						<small>
 							Total dispositivos: {{$account->number_devices}}
 						</small>
+						@endif
 					</td>
 
 					{{-- Buttons --}}
 					<td>
 						<div class="d-flex gap-2">
+							@if(!session('search'))
 							@if($account->number_devices < 3)
 							<a href="{{route('accounts.add_device', ['account'=>$account])}}"><button type="button" class="btn btn-info btn-circle"><i class="fas fa-solid fa-tv"></i></button></a>
-							@endif
+							@endif							
 							<a href="{{route('accounts.edit', ['id' => $account->id])}}"><button type="button" class="btn btn-primary btn-circle"><i class="fas fa-solid fa-pen"></i></button></a>
 							<button id="btnAccount" type="button" class="btn btn-danger btn-sm btnAccount btn-circle" data-bs-toggle="modal" data-bs-target="#modalAccount" data-info="{{$account->username}}" data-id="{{$account->id}}"><i class="fa fa-times"></i></button>
+							@endif
 						</div>
 					</td>
 				</tr>

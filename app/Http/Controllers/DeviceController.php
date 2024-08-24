@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Device;
 use App\Models\Plan;
+use App\Models\Account;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use App\Helpers\PaginationHelper;
 
 class DeviceController extends Controller
 {
@@ -43,9 +46,24 @@ class DeviceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function search(Request $request)
     {
-        //
+        $search = $request->s;
+        // return $request;
+        if(is_null($search))
+            return redirect()->route('accounts.index');
+        $devices = Device::name($search)->orWhere->phone($search)->get();
+        $devicesKeys = $devices->modelKeys();
+        $accountsKeys = $devices->pluck('account.id')->unique()->values()->all();
+        
+        $accounts = Account::whereIn('id', $accountsKeys)->with(array('devices' => function($query) use ($devicesKeys) {
+            $query->whereIn('id', $devicesKeys);
+        }))->get();
+        // $accounts = Account::whereIn('id', $accountsKeys)->with('devices')->get();
+
+        session()->flash('search', $search);
+        $accounts = PaginationHelper::paginate($accounts, 10);
+        return view('list_accounts', compact('accounts', 'search'));
     }
 
     /**
