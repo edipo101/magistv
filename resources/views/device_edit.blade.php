@@ -2,7 +2,6 @@
 	<h2 class="mb-3">Editar dispositivo</h2>
 
 	<form action="{{route('devices.update', ['id' => $device->id])}}" method="post">
-		{{$errors}}
 		@csrf
 		<div class="row mb-3">	
 			<h4 class="mb-3">Datos del plan</h4>
