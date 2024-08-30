@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Plan;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Carbon\Carbon;
@@ -70,6 +71,11 @@ class Account extends Model
     public function first_device()
     {
         return $this->devices->first()->id;
+    }
+
+    public function scopeUserName(Builder $query, string $username): void
+    {
+        if($username) $query->where('username', 'LIKE', "%$username%");
     }
 
 }

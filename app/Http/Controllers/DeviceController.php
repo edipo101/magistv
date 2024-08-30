@@ -18,7 +18,7 @@ class DeviceController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('fetchDevices');
     }
     
     public function index()
@@ -132,5 +132,19 @@ class DeviceController extends Controller
         $device = Device::find($id);
         $device->delete();
         return redirect()->back();
+    }
+
+    public function fetchDevices(Request $request)
+    {
+        $search = $request->s;
+        if ($search && (Str::length($search)) > 2) 
+        {
+            $devices = Device::name($search)->orWhere->phone($search)->get();
+            $accounts = Account::userName($search)->get();
+            return response()->json([
+                'devices' => $devices,
+                'accounts' => $accounts
+            ]);
+        }
     }
 }

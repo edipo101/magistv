@@ -36,3 +36,5 @@ Route::post('/accounts/update/{id}', [AccountController::class, 'update'])->name
 Route::get('/accounts/add-device/{account}', [AccountController::class, 'add_device'])->name('accounts.add_device');
 Route::post('/accounts/add-device', [AccountController::class, 'store_add_device'])->name('accounts.store.add_device');
 Route::post('/accounts/destroy/{id}', [AccountController::class, 'destroy'])->name('accounts.destroy');
+
+Route::get('/fetch-devices', [DeviceController::class, 'fetchDevices']);
