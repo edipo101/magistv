@@ -10,7 +10,7 @@
 			{{-- <button class="btn btn-primary btn-sm">Nuevo</button>
 			<button class="btn btn-primary btn-sm">Nuevo</button> --}}
 		</div>
-		<div>
+		<div class="d-flex gap-2">
 			<form action="{{route('devices.search')}}" method='get'>
 				<div class="input-group">
 					<input class="form-control border-end-0 border" type="search" value="{{session('search')}}" name='s' id="example-search-input" placeholder="Buscar...">
@@ -21,6 +21,7 @@
 					</span>
 				</div>
 			</form>
+			<div id="app"></div>
 		</div>
 	</div>
 
@@ -236,10 +237,14 @@
 	</div>
 
 	{{$accounts->links()}}
-
+	
+	@vite('resources/js/app.js')
 </x-layout>
 
 <script type="text/javascript">
+	var urlFetch = '{{route('fetch_devices')}}';
+	var urlShow = '{{url()->current()}}';
+
 	$(document).ready(function(){
 		$(".btnAccount").on("click",  function () {
 			let info = $(this).data('info');

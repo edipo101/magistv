@@ -1,5 +1,12 @@
-<template>Hola mundo vue</template>
+<template>
+   <search></search>
+</template>
 
 <script>
-export default {};
+import Search from './components/Search.vue';
+export default {
+   components: {
+      Search
+   }
+};
 </script>

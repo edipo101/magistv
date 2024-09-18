@@ -66,6 +66,13 @@ class DeviceController extends Controller
         return view('list_accounts', compact('accounts', 'search'));
     }
 
+    public function show(string $id)
+    {
+        $device = Device::findOrFail($id);
+        // return $device;
+        return view('device_view', compact('device'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

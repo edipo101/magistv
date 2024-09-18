@@ -1,6 +1,6 @@
 import './bootstrap';
 import { createApp } from 'vue';
-import Search from './components/Search.vue';
+import App from './App.vue';
 
-const app = createApp(Search);
+const app = createApp(App);
 app.mount('#app');

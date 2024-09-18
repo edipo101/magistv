@@ -158,7 +158,9 @@ class AccountController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $account = Account::findOrFail($id);
+        // return $account;
+        return view('account_view', compact('account'));
     }
 
     /**
@@ -176,7 +178,7 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+     public function update(Request $request, string $id)
     {
         // return $request;
         $rules = [

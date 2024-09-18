@@ -24,6 +24,7 @@ Route::get('/dashboard', function () { return view('home'); })->name('dashboard'
 
 Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
 Route::post('/devices/destroy/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
+Route::get('/devices/show/{id?}', [DeviceController::class, 'show'])->name('devices.show');
 Route::get('/devices/edit/{id}', [DeviceController::class, 'edit'])->name('devices.edit');
 Route::post('/devices/update/{id}', [DeviceController::class, 'update'])->name('devices.update');
 Route::get('/devices/search', [DeviceController::class, 'search'])->name('devices.search');
@@ -37,4 +38,5 @@ Route::get('/accounts/add-device/{account}', [AccountController::class, 'add_dev
 Route::post('/accounts/add-device', [AccountController::class, 'store_add_device'])->name('accounts.store.add_device');
 Route::post('/accounts/destroy/{id}', [AccountController::class, 'destroy'])->name('accounts.destroy');
 
-Route::get('/fetch-devices', [DeviceController::class, 'fetchDevices']);
+Route::get('/fetch-devices', [DeviceController::class, 'fetchDevices'])->name('fetch_devices');
+Route::get('/accounts/show/{id?}', [AccountController::class, 'show'])->name('accounts.show');
